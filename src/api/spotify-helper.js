@@ -5,10 +5,15 @@ const redirectUri = process.env.VUE_APP_SPOTIFY_REDIRECT_URI;
 
 const spotifyApi = new SpotifyWebApi({ clientId, redirectUri });
 
-export const AUTH_CODE_KEY = "spotify_auth_code";
-const AUTH_CODE_EXPIRES_AT_KEY = "spotify_auth_code_expires_at";
+const ACCESS_TOKEN_KEY = "spotify_token";
+const ACCESS_TOKEN_EXPIRES_AT_KEY = "spotify_token_expires_at";
 const STATE_KEY = "auth_state";
 
+/**
+ * Create state for OAuth flow
+ *
+ * @returns {string}
+ */
 function createState() {
   const state = Math.random()
     .toString(36)
@@ -20,6 +25,11 @@ function createState() {
   return state;
 }
 
+/**
+ * Get saved state for OAuth flow validation
+ *
+ * @returns {string}
+ */
 function getAndForgetState() {
   const state = localStorage.getItem(STATE_KEY);
 
@@ -31,6 +41,12 @@ function getAndForgetState() {
   return state;
 }
 
+/**
+ * Despite the documentation implying so, the Spotify node lib does NOT support the implicit grant flow auth.
+ * This function handles it instead.
+ *
+ * @returns {string}
+ */
 function createAuthorizeURL() {
   const scopes = ["playlist-modify-public", "user-read-private"];
   const state = createState();
@@ -45,8 +61,11 @@ function createAuthorizeURL() {
   return url;
 }
 
+/**
+ * Set the Spotify API client up for our request, and validate the token.
+ */
 function setupRequest() {
-  const authCode = sessionStorage.getItem(AUTH_CODE_KEY);
+  const authCode = sessionStorage.getItem(ACCESS_TOKEN_KEY);
   if (!authCode) {
     throw Error("No auth code");
   }
@@ -58,10 +77,20 @@ function setupRequest() {
   spotifyApi.setAccessToken(authCode);
 }
 
+/**
+ * Open Spotify authorization window
+ */
 export async function authorize() {
   window.location.href = createAuthorizeURL();
 }
 
+/**
+ * Handle Spotify auth callback
+ *
+ * @param {string} state
+ * @param {string} token
+ * @param {number} expiresIn
+ */
 export function spotifyReturn(state, token, expiresIn) {
   const savedState = getAndForgetState();
   if (savedState !== state) {
@@ -71,17 +100,28 @@ export function spotifyReturn(state, token, expiresIn) {
   const expiry = new Date();
   expiry.setSeconds(expiry.getSeconds() + parseInt(expiresIn));
 
-  sessionStorage.setItem(AUTH_CODE_KEY, token);
-  sessionStorage.setItem(AUTH_CODE_EXPIRES_AT_KEY, expiry.getTime());
+  sessionStorage.setItem(ACCESS_TOKEN_KEY, token);
+  sessionStorage.setItem(ACCESS_TOKEN_EXPIRES_AT_KEY, expiry.getTime());
 }
 
+/**
+ * Search for artists
+ *
+ * @param {string} artist
+ * @returns {object}
+ */
 export async function searchArtists(artist) {
   setupRequest();
   return spotifyApi.searchArtists(artist);
 }
 
+/**
+ * Check whether or not our token is valid
+ *
+ * @returns {bool}
+ */
 export function tokenIsExpired() {
-  const expiry = sessionStorage.getItem(AUTH_CODE_EXPIRES_AT_KEY);
+  const expiry = sessionStorage.getItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
   if (!expiry) {
     return true;
   }
