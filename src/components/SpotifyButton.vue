@@ -7,7 +7,7 @@
 
 <script>
 import SpotifyLogo from "@/components/SpotifyLogo.vue";
-import { authorize } from "@/api/spotify-api";
+import { authorize } from "@/api/spotify-helper";
 
 export default {
   name: "SpotifyButton",

@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { spotifyReturn } from "@/api/spotify-api";
+import { spotifyReturn } from "@/api/spotify-helper";
 
 export default {
   name: "SpotifyCallback",

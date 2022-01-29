@@ -3,25 +3,24 @@
     <h1 class="header">artists2playlist</h1>
     <h2>Create a playlist from a set of artists' Top X songs.</h2>
 
-    <spotify-search />
-
-    <spotify-button />
-
-    <h2 class="without-login">... or continue without login</h2>
-    <p>
-      You can use this application without logging in, however, it will only be able to make a list
-      of links for you to copy/paste into your Spotify client (desktop only)
-    </p>
+    <spotify-button v-if="!hasValidToken" class="spotify-button" />
+    <spotify-search v-else />
   </div>
 </template>
 
 <script>
 import SpotifyButton from "@/components/SpotifyButton";
 import SpotifySearch from "@/components/SpotifySearch.vue";
+import { tokenIsExpired } from "@/api/spotify-helper";
 
 export default {
   name: "Home",
-  components: { SpotifyButton, SpotifySearch }
+  components: { SpotifyButton, SpotifySearch },
+  computed: {
+    hasValidToken() {
+      return !tokenIsExpired();
+    }
+  }
 };
 </script>
 
@@ -33,12 +32,6 @@ export default {
   flex-direction: column
   align-items: center
 
-  h2
-    font-size: sizes.$text-xl
-
-    &.without-login
-      margin-top: 30px
-
-  p
-    font-size: sizes.$text
+  .spotify-button
+    margin-bottom: 30px
 </style>
