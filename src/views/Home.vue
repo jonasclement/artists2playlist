@@ -25,12 +25,16 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@use "@/style/variables/colors"
 @use "@/style/variables/sizes"
 
 .home
   display: flex
   flex-direction: column
   align-items: center
+
+  h1, h2
+    color: var(--text-color)
 
   .spotify-button
     margin-bottom: 30px
