@@ -11,15 +11,25 @@
       :min-length="3"
       :list="fetchArtists"
       @select="onSelect($event)"
-    ></vue-simple-suggest>
+    >
+      <div
+        slot="suggestion-item"
+        slot-scope="scope"
+        class="suggestion-item"
+        :title="scope.suggestion.name"
+      >
+        <img class="image" :src="scope.suggestion.image" />
+        <div class="text">{{ scope.suggestion.name }}</div>
+      </div>
+    </vue-simple-suggest>
     <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
 
 <script>
-import { searchArtists, tokenIsExpired } from "@/api/spotify-helper";
 import VueSimpleSuggest from "vue-simple-suggest";
 import "vue-simple-suggest/dist/styles.css";
+import { searchArtists, tokenIsExpired } from "@/api/spotify-helper";
 
 export default {
   name: "SpotifySearch",
@@ -39,14 +49,17 @@ export default {
       }
 
       const artists = await searchArtists(query);
-      return artists.map((artist) => ({
-        id: artist.id,
-        name: artist.name,
-        image: artist.images[2]
-      }));
+      return artists.map((artist) => {
+        return {
+          id: artist.id,
+          name: artist.name,
+          image: artist.images[2]?.url ?? "/images/spotify-logo.png"
+        };
+      });
     },
     async onSelect(artist) {
       this.$emit("select-artist", artist);
+      console.log(artist.image);
       await this.$nextTick();
       this.inputValue = "";
     }
@@ -80,10 +93,25 @@ export default {
 
     .suggestions
       text-align: left
-      font-size: sizes.$text-s
       background: var(--dropdown-bg)
-      color: var(--text-color)
       box-shadow: 5px 2px 14px -2px rgba(0,0,0,0.79)
+
+      .suggestion-item
+        display: flex
+        align-items: center
+        gap: 20px
+        width: 100%
+        height: 75px
+
+        .image
+          width: 60px
+          height: 60px
+          object-fit: cover
+          border-radius: 50%
+
+        .text
+          font-size: sizes.$text-xl
+          color: var(--text-color)
 
   &.focus::v-deep .input-wrapper input
     border: 1px solid var(--spotify-color)

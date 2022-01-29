@@ -134,6 +134,18 @@ export async function getMe() {
 }
 
 /**
+ * Get the artist's top tracks
+ *
+ * @param {string} artistId
+ * @param {string} country ISO-3166-1 alpha-2 format
+ * @returns {SpotifyApi.ArtistsTopTracksResponse}
+ */
+export async function getArtistTopTracks(artistId, country) {
+  setupRequest();
+  return (await spotifyApi.getArtistTopTracks(artistId, country)).body.tracks;
+}
+
+/**
  * Search for artists
  *
  * @param {string} artist
