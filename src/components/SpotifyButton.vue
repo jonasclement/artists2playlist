@@ -1,5 +1,5 @@
 <template>
-  <button @click="onClick()">
+  <button @click="authorize()">
     <spotify-logo role="presentation" />
     Log in with Spotify
   </button>
@@ -7,10 +7,14 @@
 
 <script>
 import SpotifyLogo from "@/components/SpotifyLogo.vue";
+import { authorize } from "@/api/spotify-api";
 
 export default {
   name: "SpotifyButton",
-  components: { SpotifyLogo }
+  components: { SpotifyLogo },
+  methods: {
+    authorize
+  }
 };
 </script>
 
