@@ -3,6 +3,12 @@
   --text-color: #2c3e50;
   --link-color: #2c3e50;
   --active-link-color: #3da777;
+
+  /* non-themed colors */
+  --spotify-color: #5cb85c;
+  --spotify-color-border: #449d44;
+  --spotify-color-ligtened: #6ec06e;
+  --spotify-color-border-lightened: #4cae4c;
 }
 
 @media (prefers-color-scheme: dark) {

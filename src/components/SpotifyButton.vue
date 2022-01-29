@@ -18,13 +18,11 @@ export default {
 @use "@/style/mixins/corners"
 @use "@/style/mixins/transitions"
 @use "@/style/variables/sizes"
-
-$spotify-color: #5cb85c
-$border-color: darken($spotify-color, 10%)
+@use "@/style/variables/colors"
 
 button
-  border: 1px solid $border-color
-  background: $spotify-color
+  border: 1px solid var(--spotify-color-border)
+  background: var(--spotify-color)
   color: white
   height: 50px
   width: 250px
@@ -33,6 +31,6 @@ button
   @include transitions.short()
 
   &:hover
-    border: lighten($border-color, 5%)
-    background: lighten($spotify-color, 5%)
+    border: var(--spotify-color-border-lightened)
+    background: var(--spotify-color-ligtened)
 </style>
