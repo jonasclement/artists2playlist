@@ -26,7 +26,7 @@
 
 <script>
 export default {
-  name: "TheLogo"
+  name: "PageLogo"
 };
 </script>
 

@@ -1,0 +1,7 @@
+$short-duration: 150ms
+
+@mixin short($element: all)
+    transition: $element $short-duration
+
+    @media (prefers-reduced-motion: reduce)
+        transition: none !important

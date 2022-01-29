@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <the-logo />
+      <page-logo />
       <span class="links">
         <router-link to="/">Home</router-link>
         |
@@ -14,12 +14,12 @@
 </template>
 
 <script>
-import ContentDivider from "./components/ContentDivider.vue";
-import TheLogo from "./components/TheLogo.vue";
+import ContentDivider from "@/components/ContentDivider.vue";
+import PageLogo from "@/components/PageLogo.vue";
 
 export default {
   name: "App",
-  components: { TheLogo, ContentDivider },
+  components: { PageLogo, ContentDivider },
   mounted() {
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
       return this.setTheme("dark");
