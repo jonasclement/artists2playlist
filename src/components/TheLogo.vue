@@ -8,7 +8,13 @@
       xmlns="http://www.w3.org/2000/svg"
       class="icon"
     >
-      <g fill="none" stroke="#000" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2">
+      <g
+        fill="none"
+        stroke="currentColor"
+        stroke-linejoin="round"
+        stroke-miterlimit="10"
+        stroke-width="2"
+      >
         <path d="m26 4 5 5-5 5M26 28l5-5-5-5" />
         <path d="M31 9h-8L9 23H0" />
         <path d="M31 23h-8L9 9H0" />
@@ -30,6 +36,7 @@ export default {
   align-items: center
 
   .icon
+    color: var(--text-color)
     padding-right: 1rem
 
   .brand

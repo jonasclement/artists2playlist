@@ -19,17 +19,34 @@ import TheLogo from "./components/TheLogo.vue";
 
 export default {
   name: "App",
-  components: { TheLogo, ContentDivider }
+  components: { TheLogo, ContentDivider },
+  mounted() {
+    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return this.setTheme("dark");
+    }
+
+    return this.setTheme("light");
+  },
+  methods: {
+    setTheme(theme) {
+      document.getElementById("app").classList.add(`theme-${theme}`);
+    }
+  }
 };
 </script>
 
 <style lang="sass">
+@use "./style/variables/colors.css"
+
+body
+  background: var(--page-bg)
+
 #app
   font-family: Avenir, Helvetica, Arial, sans-serif
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
   text-align: center
-  color: #2c3e50
+  color: var(--text-color)
   max-width: 768px
   margin: 30px auto
 </style>
@@ -54,8 +71,8 @@ export default {
 
     a
       font-weight: bold
-      color: #2c3e50
+      color: var(--link-color)
 
       &.router-link-exact-active
-        color: #42b983
+        color: var(--active-link-color)
 </style>
