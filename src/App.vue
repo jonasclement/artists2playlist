@@ -59,7 +59,7 @@ body
   display: flex
   align-items: center
   flex-direction: column
-  margin-bottom: 60px
+  margin-bottom: 30px
   gap: 16px
 
   @include media.breakpoint-up(sm)
