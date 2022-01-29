@@ -23,4 +23,5 @@ export default {
 <style lang="sass" scoped>
 .content-separator
   border-top: 1px solid #ccc
+  margin: 25px 0
 </style>

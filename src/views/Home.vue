@@ -8,6 +8,7 @@
         <span v-if="spotifyUser">Logged in as {{ spotifyUser }}. </span>
         <a href="#" @click="onLogOut()">Log out</a>
       </p>
+      <content-divider variant="horizontal" />
       <spotify-search class="spotify-search" />
     </div>
     <spotify-button v-else class="spotify-button" />
@@ -15,13 +16,14 @@
 </template>
 
 <script>
+import ContentDivider from "@/components/ContentDivider";
 import SpotifyButton from "@/components/SpotifyButton";
-import SpotifySearch from "@/components/SpotifySearch.vue";
+import SpotifySearch from "@/components/SpotifySearch";
 import { deleteToken, getMe, tokenIsExpired } from "@/api/spotify-helper";
 
 export default {
   name: "Home",
-  components: { SpotifyButton, SpotifySearch },
+  components: { ContentDivider, SpotifyButton, SpotifySearch },
   data() {
     return {
       spotifyUser: ""
@@ -62,9 +64,6 @@ export default {
 
   p
     font-size: sizes.$text
-
-  .spotify-button
-    margin-bottom: 30px
 
   .logged-in-container
     display: flex
