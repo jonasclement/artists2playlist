@@ -62,6 +62,25 @@ function createAuthorizeURL() {
 }
 
 /**
+ * Check whether or not our token is valid
+ *
+ * @returns {bool}
+ */
+export function tokenIsExpired() {
+  const expiry = sessionStorage.getItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
+  if (!expiry) {
+    return true;
+  }
+
+  return new Date().getTime() > expiry;
+}
+
+export function deleteToken() {
+  sessionStorage.removeItem(ACCESS_TOKEN_KEY);
+  sessionStorage.removeItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
+}
+
+/**
  * Set the Spotify API client up for our request, and validate the token.
  */
 function setupRequest() {
@@ -105,26 +124,22 @@ export function spotifyReturn(state, token, expiresIn) {
 }
 
 /**
- * Search for artists
+ * Get the logged-in user
  *
- * @param {string} artist
- * @returns {object}
+ * @returns {SpotifyApi.CurrentUsersProfileResponse}
  */
-export async function searchArtists(artist) {
+export async function getMe() {
   setupRequest();
-  return spotifyApi.searchArtists(artist);
+  return (await spotifyApi.getMe()).body;
 }
 
 /**
- * Check whether or not our token is valid
+ * Search for artists
  *
- * @returns {bool}
+ * @param {string} artist
+ * @returns {SpotifyApi.SearchResponse}
  */
-export function tokenIsExpired() {
-  const expiry = sessionStorage.getItem(ACCESS_TOKEN_EXPIRES_AT_KEY);
-  if (!expiry) {
-    return true;
-  }
-
-  return new Date().getTime() > expiry;
+export async function searchArtists(artist) {
+  setupRequest();
+  return (await spotifyApi.searchArtists(artist)).body;
 }
