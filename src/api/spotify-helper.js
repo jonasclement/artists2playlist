@@ -141,5 +141,5 @@ export async function getMe() {
  */
 export async function searchArtists(artist) {
   setupRequest();
-  return (await spotifyApi.searchArtists(artist)).body;
+  return (await spotifyApi.searchArtists(artist)).body.artists.items;
 }

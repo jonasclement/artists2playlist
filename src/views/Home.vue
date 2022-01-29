@@ -8,8 +8,12 @@
         <span v-if="spotifyUser">Logged in as {{ spotifyUser }}. </span>
         <a href="#" @click="onLogOut()">Log out</a>
       </p>
+
       <content-divider variant="horizontal" />
-      <spotify-search class="spotify-search" />
+
+      <h3>1. Start by adding the artists you'd like!</h3>
+      <spotify-search class="spotify-search" @select-artist="onSelectArtist($event)" />
+      <p>Selected artists: {{ selectedArtists.map((a) => a.name).join(", ") }}</p>
     </div>
     <spotify-button v-else class="spotify-button" />
   </div>
@@ -26,6 +30,7 @@ export default {
   components: { ContentDivider, SpotifyButton, SpotifySearch },
   data() {
     return {
+      selectedArtists: [],
       spotifyUser: ""
     };
   },
@@ -42,6 +47,9 @@ export default {
     onLogOut() {
       deleteToken();
       window.location.reload();
+    },
+    onSelectArtist(artist) {
+      this.selectedArtists.push(artist);
     }
   }
 };
@@ -56,7 +64,7 @@ export default {
   flex-direction: column
   align-items: center
 
-  h1, h2, p
+  h1, h2, h3, p
     color: var(--text-color)
 
   a

@@ -1,5 +1,7 @@
 :root {
   --page-bg: #fff;
+  --dropdown-bg: #fff;
+
   --text-color: #2c3e50;
   --link-color: #2c3e50;
   --active-link-color: #3da777;
@@ -9,11 +11,14 @@
   --spotify-color-border: #449d44;
   --spotify-color-ligtened: #6ec06e;
   --spotify-color-border-lightened: #4cae4c;
+  --error-color: #e41a1a;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --page-bg: #121212;
+    --dropdown-bg: #121212;
+
     --text-color: rgba(255, 255, 255, 87%);
     --link-color: #6a99c9;
     --active-link-color: #42b983;

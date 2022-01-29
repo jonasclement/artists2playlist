@@ -1,18 +1,23 @@
 <template>
   <div class="spotify-search">
     <vue-simple-suggest
-      v-model="chosen"
-      display-attribute="text"
+      v-model="inputValue"
+      display-attribute="name"
       value-attribute="id"
       placeholder="Search artists..."
+      :debounce="200"
+      :disabled="disabled"
       :max-suggestions="15"
       :min-length="3"
       :list="fetchArtists"
+      @select="onSelect($event)"
     ></vue-simple-suggest>
+    <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
 
 <script>
+import { searchArtists, tokenIsExpired } from "@/api/spotify-helper";
 import VueSimpleSuggest from "vue-simple-suggest";
 import "vue-simple-suggest/dist/styles.css";
 
@@ -21,38 +26,29 @@ export default {
   components: { VueSimpleSuggest },
   data() {
     return {
-      chosen: "",
-      list: ["Test", "Hest", "Vest"]
+      inputValue: "",
+      disabled: tokenIsExpired(),
+      error: ""
     };
   },
   methods: {
     async fetchArtists(query) {
-      const url = `https://en.wikipedia.org/w/api.php?origin=*&action=opensearch&namespace=*&search=${query}&limit=10&namespace=0&format=json`;
-
-      const response = await fetch(url);
-      if (!response.ok) {
-        return;
+      if (tokenIsExpired()) {
+        this.disabled = true;
+        this.error = "Please log out and log back in.";
       }
 
-      const json = await response.json();
-      // remove input text from result
-      json.shift();
-      console.log(json);
-      const fields = ["text", "description", "link"];
-      const results = [];
-
-      json.forEach((field, i) => {
-        field.forEach((el, j) => {
-          if (!results[j]) {
-            results.push({ id: j + 1 });
-          }
-
-          results[j][fields[i]] = el;
-        });
-      });
-
-      console.log(results);
-      return results;
+      const artists = await searchArtists(query);
+      return artists.map((artist) => ({
+        id: artist.id,
+        name: artist.name,
+        image: artist.images[2]
+      }));
+    },
+    async onSelect(artist) {
+      this.$emit("select-artist", artist);
+      await this.$nextTick();
+      this.inputValue = "";
     }
   }
 };
@@ -64,18 +60,30 @@ export default {
 
 .spotify-search
   width: 70%
-  margin-bottom: 30px
+
+  .error
+    font-size: sizes.$text
+    color: var(--error-color)
 
 .vue-simple-suggest.designed
   &::v-deep
     .input-wrapper input
       font-size: sizes.$text-s
+      background: var(--page-bg)
+      border: 1px solid var(--text-color)
+      color: var(--text-color)
       height: 40px
-      border: 1px solid #000
+
+      &:disabled
+        cursor: not-allowed
+        opacity: 60%
 
     .suggestions
       text-align: left
       font-size: sizes.$text-s
+      background: var(--dropdown-bg)
+      color: var(--text-color)
+      box-shadow: 5px 2px 14px -2px rgba(0,0,0,0.79)
 
   &.focus::v-deep .input-wrapper input
     border: 1px solid var(--spotify-color)
