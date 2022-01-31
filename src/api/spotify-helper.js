@@ -140,7 +140,7 @@ export async function getMe() {
  * @param {string} country ISO-3166-1 alpha-2 format
  * @returns {SpotifyApi.ArtistsTopTracksResponse}
  */
-export async function getArtistTopTracks(artistId, country) {
+export async function getArtistTopTracks(artistId, country = "DK") {
   setupRequest();
   return (await spotifyApi.getArtistTopTracks(artistId, country)).body.tracks;
 }

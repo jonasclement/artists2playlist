@@ -19,6 +19,7 @@
           v-for="artist in selectedArtists"
           :key="artist.id"
           class="card"
+          :artist-id="artist.id"
           :name="artist.name"
           :image-src="artist.image"
           @delete-click="onDeleteArtist(artist)"

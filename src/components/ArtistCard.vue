@@ -5,7 +5,7 @@
     </div>
     <div class="info">
       <p class="name">{{ name }}</p>
-      <p class="tracks">Track 1, track 2, track 3, track 4, track 5</p>
+      <p class="tracks">{{ tracks }}</p>
     </div>
     <div class="actions">
       <button class="delete-button" @click="onDelete()">x</button>
@@ -14,9 +14,15 @@
 </template>
 
 <script>
+import { getArtistTopTracks } from "@/api/spotify-helper";
+
 export default {
   name: "ArtistCard",
   props: {
+    artistId: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: true
@@ -25,6 +31,13 @@ export default {
       type: String,
       required: true
     }
+  },
+  data() {
+    return { tracks: "..." };
+  },
+  async mounted() {
+    const artistTopTracks = await getArtistTopTracks(this.artistId);
+    this.tracks = artistTopTracks.map((track) => track.name).join(", ");
   },
   methods: {
     onDelete() {
@@ -79,6 +92,7 @@ export default {
       margin: 0 0 5px 0
       text-overflow: ellipsis
       overflow: hidden
+      font-style: italic
       @include text.text(s)
 
   .actions
