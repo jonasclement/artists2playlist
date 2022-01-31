@@ -11,3 +11,6 @@ $text-sizes: (s: 1rem, default: 1.2rem, xl: 1.5rem)
 
     @else
         @warn 'Invalid text size: #{$size}'
+
+@mixin link()
+    color: var(--link-color)

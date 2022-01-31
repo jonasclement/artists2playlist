@@ -70,7 +70,7 @@ body
 
     a
       font-weight: bold
-      color: var(--link-color)
+      @include text.link()
 
       &.router-link-exact-active
         color: var(--active-link-color)
