@@ -60,6 +60,10 @@ export default {
       window.location.reload();
     },
     onSelectArtist(artist) {
+      if (this.selectedArtists.findIndex((a) => a.id === artist.id) !== -1) {
+        return;
+      }
+
       this.selectedArtists.push(artist);
     },
     onDeleteArtist(artist) {

@@ -59,7 +59,6 @@ export default {
     },
     async onSelect(artist) {
       this.$emit("select-artist", artist);
-      console.log(artist.image);
       await this.$nextTick();
       this.inputValue = "";
     }
