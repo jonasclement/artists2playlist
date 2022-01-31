@@ -53,7 +53,7 @@ body
 
 <style lang="sass" scoped>
 @use "@/style/mixins/media"
-@use "@/style/variables/sizes"
+@use "@/style/mixins/text"
 
 #nav
   display: flex
@@ -66,7 +66,7 @@ body
     justify-content: space-between
 
   .links
-    font-size: sizes.$text-xl
+    @include text.text(xl)
 
     a
       font-weight: bold

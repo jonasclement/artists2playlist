@@ -70,24 +70,24 @@ export default {
 <style lang="sass" scoped>
 @use "@/style/mixins/images"
 @use "@/style/mixins/shadows"
+@use "@/style/mixins/text"
 @use "@/style/variables/colors"
-@use "@/style/variables/sizes"
 
 .spotify-search
   width: 70%
 
   .error
-    font-size: sizes.$text
     color: var(--error-color)
+    @include text.text(default)
 
 .vue-simple-suggest.designed
   &::v-deep
     .input-wrapper input
-      font-size: sizes.$text-s
       background: var(--page-bg)
       border: 1px solid var(--text-color)
       color: var(--text-color)
       height: 40px
+      @include text.text(s)
 
       &:disabled
         cursor: not-allowed
@@ -109,8 +109,8 @@ export default {
           @include images.round(60px)
 
         .text
-          font-size: sizes.$text-xl
           color: var(--text-color)
+          @include text.text(xl)
 
   &.focus::v-deep .input-wrapper input
     border: 1px solid var(--spotify-color)

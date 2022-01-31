@@ -20,8 +20,8 @@ export default {
 
 <style lang="sass" scoped>
 @use "@/style/mixins/corners"
+@use "@/style/mixins/text"
 @use "@/style/mixins/transitions"
-@use "@/style/variables/sizes"
 @use "@/style/variables/colors"
 
 button
@@ -30,7 +30,7 @@ button
   color: var(--text-color)
   height: 50px
   width: 250px
-  font-size: sizes.$text
+  @include text.text(default)
   @include corners.rounded()
   @include transitions.short()
 

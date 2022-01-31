@@ -1,0 +1,9 @@
+$text-sizes: (s: 1rem, default: 1.2rem, xl: 1.5rem)
+
+@mixin text($size)
+    @if map-has-key($text-sizes, $size)
+        $text-value: map-get($text-sizes, $size)
+
+        font-size: $text-value
+    @else
+        @warn 'Invalid text size: #{$size}'

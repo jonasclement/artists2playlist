@@ -37,9 +37,9 @@ export default {
 <style lang="sass" scoped>
 @use "@/style/mixins/images"
 @use "@/style/mixins/shadows"
+@use "@/style/mixins/text"
 @use "@/style/mixins/transitions"
 @use "@/style/variables/colors"
-@use "@/style/variables/sizes"
 
 .artist-card
   display: flex
@@ -48,11 +48,11 @@ export default {
   gap: 15px
   text-align: left
   height: 108px
-  font-size: sizes.$text
   background: var(--card-bg)
   color: var(--text-color)
   border: 1px solid var(--spotify-color-border)
   padding: 10px
+  @include text.text(default)
   @include transitions.short(box-shadow)
 
   &:hover
@@ -79,7 +79,7 @@ export default {
       margin: 0 0 5px 0
       text-overflow: ellipsis
       overflow: hidden
-      font-size: sizes.$text-s
+      @include text.text(s)
 
   .actions
     position: relative

@@ -71,8 +71,8 @@ export default {
 
 <style lang="sass" scoped>
 @use "@/style/mixins/media"
+@use "@/style/mixins/text"
 @use "@/style/variables/colors"
-@use "@/style/variables/sizes"
 
 .home
   display: flex
@@ -86,10 +86,10 @@ export default {
     color: var(--link-color)
 
   p
-    font-size: sizes.$text
+    @include text.text(default)
 
     &.tagline
-      font-size: sizes.$text-xl
+      @include text.text(xl)
 
   .logged-in-container
     display: flex
