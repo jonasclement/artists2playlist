@@ -8,7 +8,9 @@
       <p class="tracks">{{ tracks }}</p>
     </div>
     <div class="actions">
-      <button class="delete-button" @click="onDelete()">x</button>
+      <button class="delete-button" aria-label="Remove artist from your list" @click="onDelete()">
+        x
+      </button>
     </div>
   </div>
 </template>
@@ -101,7 +103,7 @@ export default {
 
     .delete-button
       background: var(--button-bg)
-      color: red
+      color: darken(red, 8%)
       position: relative
       top: 0
 </style>
