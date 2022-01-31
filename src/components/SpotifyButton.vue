@@ -27,7 +27,7 @@ export default {
 button
   border: 1px solid var(--spotify-color-border)
   background: var(--spotify-color)
-  color: var(--text-color)
+  color: var(--button-text-color)
   height: 50px
   width: 250px
   @include text.text(default)

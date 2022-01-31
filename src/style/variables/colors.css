@@ -14,6 +14,7 @@
   --spotify-color-ligtened: #6ec06e;
   --spotify-color-border-lightened: #4cae4c;
   --error-color: #e41a1a;
+  --button-text-color: rgba(255, 255, 255, 87%);
 }
 
 @media (prefers-color-scheme: dark) {
