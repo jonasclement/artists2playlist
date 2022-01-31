@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1 class="header">artists2playlist</h1>
-    <h2>Create a playlist from a set of artists' Top X songs.</h2>
+    <p class="tagline">Create a playlist from a set of artists' Top X songs.</p>
 
     <div v-if="hasValidToken" class="logged-in-container">
       <p>
@@ -11,15 +11,26 @@
 
       <content-divider variant="horizontal" />
 
-      <h3>1. Start by adding the artists you'd like!</h3>
+      <h2>1. Start by adding the artists you'd like!</h2>
       <spotify-search class="spotify-search" @select-artist="onSelectArtist($event)" />
-      <p>Selected artists: {{ selectedArtists.map((a) => a.name).join(", ") }}</p>
+      <h3>Selected artists:</h3>
+      <div class="artist-cards">
+        <artist-card
+          v-for="artist in selectedArtists"
+          :key="artist.id"
+          class="card"
+          :name="artist.name"
+          :image-src="artist.image"
+          @delete-click="onDeleteArtist(artist)"
+        />
+      </div>
     </div>
     <spotify-button v-else class="spotify-button" />
   </div>
 </template>
 
 <script>
+import ArtistCard from "@/components/ArtistCard.vue";
 import ContentDivider from "@/components/ContentDivider";
 import SpotifyButton from "@/components/SpotifyButton";
 import SpotifySearch from "@/components/SpotifySearch";
@@ -27,7 +38,7 @@ import { deleteToken, getMe, tokenIsExpired } from "@/api/spotify-helper";
 
 export default {
   name: "Home",
-  components: { ContentDivider, SpotifyButton, SpotifySearch },
+  components: { ArtistCard, ContentDivider, SpotifyButton, SpotifySearch },
   data() {
     return {
       selectedArtists: [],
@@ -50,12 +61,16 @@ export default {
     },
     onSelectArtist(artist) {
       this.selectedArtists.push(artist);
+    },
+    onDeleteArtist(artist) {
+      this.selectedArtists = this.selectedArtists.filter((a) => a.id !== artist.id);
     }
   }
 };
 </script>
 
 <style lang="sass" scoped>
+@use "@/style/mixins/media"
 @use "@/style/variables/colors"
 @use "@/style/variables/sizes"
 
@@ -73,6 +88,9 @@ export default {
   p
     font-size: sizes.$text
 
+    &.tagline
+      font-size: sizes.$text-xl
+
   .logged-in-container
     display: flex
     flex-direction: column
@@ -81,4 +99,23 @@ export default {
 
     .spotify-search
       margin: 0 auto
+
+    .artist-cards
+      display: flex
+      flex-direction: column
+      flex-wrap: wrap
+      justify-content: space-between
+
+      @include media.breakpoint-up(md)
+        flex-direction: row
+        width: 100%
+        gap: 2%
+
+
+      .card
+        width: 94%
+        margin-bottom: 15px
+
+        @include media.breakpoint-up(md)
+          max-width: 46%
 </style>

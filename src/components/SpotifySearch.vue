@@ -68,6 +68,8 @@ export default {
 </script>
 
 <style lang="sass" scoped>
+@use "@/style/mixins/images"
+@use "@/style/mixins/shadows"
 @use "@/style/variables/colors"
 @use "@/style/variables/sizes"
 
@@ -94,7 +96,7 @@ export default {
     .suggestions
       text-align: left
       background: var(--dropdown-bg)
-      box-shadow: 5px 2px 14px -2px rgba(0,0,0,0.79)
+      @include shadows.default()
 
       .suggestion-item
         display: flex
@@ -104,10 +106,7 @@ export default {
         height: 75px
 
         .image
-          width: 60px
-          height: 60px
-          object-fit: cover
-          border-radius: 50%
+          @include images.round(60px)
 
         .text
           font-size: sizes.$text-xl
