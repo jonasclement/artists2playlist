@@ -1,3 +1,5 @@
+@use "@/style/variables/colors"
+
 $text-sizes: (s: 1rem, default: 1.2rem, xl: 1.5rem)
 
 @mixin text($size)
@@ -5,5 +7,7 @@ $text-sizes: (s: 1rem, default: 1.2rem, xl: 1.5rem)
         $text-value: map-get($text-sizes, $size)
 
         font-size: $text-value
+        color: var(--text-color)
+
     @else
         @warn 'Invalid text size: #{$size}'

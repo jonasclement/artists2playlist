@@ -64,7 +64,6 @@ export default {
   text-align: left
   height: 108px
   background: var(--card-bg)
-  color: var(--text-color)
   border: 1px solid var(--spotify-color-border)
   padding: 10px
   @include text.text(default)

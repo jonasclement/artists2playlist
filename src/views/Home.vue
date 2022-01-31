@@ -59,7 +59,7 @@ export default {
   flex-direction: column
   align-items: center
 
-  h1, h2, h3, p
+  h1, h2, h3
     color: var(--text-color)
 
   a
