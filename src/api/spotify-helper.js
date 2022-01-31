@@ -138,7 +138,7 @@ export async function getMe() {
  *
  * @param {string} artistId
  * @param {string} country ISO-3166-1 alpha-2 format
- * @returns {SpotifyApi.ArtistsTopTracksResponse}
+ * @returns {Promise<SpotifyApi.ArtistsTopTracksResponse>}
  */
 export async function getArtistTopTracks(artistId, country = "DK") {
   setupRequest();
@@ -149,9 +149,37 @@ export async function getArtistTopTracks(artistId, country = "DK") {
  * Search for artists
  *
  * @param {string} artist
- * @returns {SpotifyApi.SearchResponse}
+ * @returns {Promise<SpotifyApi.SearchResponse>}
  */
 export async function searchArtists(artist) {
   setupRequest();
   return (await spotifyApi.searchArtists(artist)).body.artists.items;
+}
+
+export async function createPlaylist(name, artists, tracksPerArtist, shuffle) {
+  setupRequest();
+
+  // Fetch top tracks for all artists
+  let tracks = (
+    await Promise.all(
+      artists.map(async (artist) => {
+        const topTracks = await getArtistTopTracks(artist.id);
+        return topTracks.slice(0, tracksPerArtist).map((track) => track.uri);
+      })
+    )
+  ).flat();
+
+  if (shuffle) {
+    tracks = tracks.sort(() => Math.random() - 0.5);
+  }
+
+  const playlistId = (
+    await spotifyApi.createPlaylist(name, {
+      description: "Created with artists2playlist",
+      collaborative: false,
+      public: true
+    })
+  ).body.id;
+
+  return spotifyApi.addTracksToPlaylist(playlistId, tracks);
 }

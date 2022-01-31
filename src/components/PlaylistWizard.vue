@@ -32,7 +32,7 @@
         <form action="#">
           <label>
             Name your playlist:
-            <input v-model="playlistName" type="text" placeholder="My awesome playlist" />
+            <input v-model="playlistName" type="text" placeholder="artists2playlist Playlist" />
           </label>
           <label>
             How many tracks per artist? (1-10)
@@ -45,6 +45,7 @@
         </form>
       </div>
       <button class="wizard-button" type="submit" @click="onSubmit()">Create playlist</button>
+      <p v-if="status">{{ status }}</p>
       <button class="wizard-button wizard-button--gray" @click="currentStep = STEP_ARTISTS">
         Back
       </button>
@@ -55,6 +56,7 @@
 <script>
 import ArtistCard from "@/components/ArtistCard.vue";
 import SpotifySearch from "@/components/SpotifySearch";
+import { createPlaylist } from "@/api/spotify-helper";
 
 const STEP_ARTISTS = 0;
 const STEP_PLAYLIST_DATA = 1;
@@ -65,9 +67,10 @@ export default {
   data() {
     return {
       currentStep: STEP_ARTISTS,
-      playlistName: "artists2playlist Playlist",
+      playlistName: "",
       selectedArtists: [],
       shuffleTracks: false,
+      status: "",
       tracksPerArtist: 5,
       STEP_ARTISTS,
       STEP_PLAYLIST_DATA
@@ -79,6 +82,31 @@ export default {
     },
     onDeleteArtist(artist) {
       this.selectedArtists = this.selectedArtists.filter((a) => a.id !== artist.id);
+    },
+    async onSubmit() {
+      if (!this.selectedArtists.length) {
+        return;
+      }
+
+      let playlistName = this.playlistName;
+      if (!playlistName) {
+        playlistName = "artists2playlist Playlist";
+      }
+
+      if (this.tracksPerArtist < 1) {
+        this.tracksPerArtist = 1;
+      } else if (this.tracksPerArtist > 10) {
+        this.tracksPerArtist = 10;
+      }
+
+      await createPlaylist(
+        playlistName,
+        this.selectedArtists,
+        this.tracksPerArtist,
+        this.shuffleTracks
+      );
+
+      this.status = "Playlist created";
     }
   }
 };
