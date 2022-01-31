@@ -37,8 +37,10 @@ export default {
     }
   },
   async mounted() {
-    const userData = await getMe();
-    this.spotifyUser = userData.display_name ?? userData.id;
+    if (this.hasValidToken) {
+      const userData = await getMe();
+      this.spotifyUser = userData.display_name ?? userData.id;
+    }
   },
   methods: {
     onLogOut() {
