@@ -34,6 +34,12 @@ import { searchArtists, tokenIsExpired } from "@/api/spotify-helper";
 export default {
   name: "SpotifySearch",
   components: { VueSimpleSuggest },
+  props: {
+    filterArtists: {
+      type: Array,
+      default: () => []
+    }
+  },
   data() {
     return {
       inputValue: "",
@@ -49,13 +55,19 @@ export default {
       }
 
       const artists = await searchArtists(query);
-      return artists.map((artist) => {
-        return {
-          id: artist.id,
-          name: artist.name,
-          image: artist.images[2]?.url ?? "/images/spotify-logo.png"
-        };
-      });
+      return (
+        artists
+          // Simplify data structure
+          .map((artist) => {
+            return {
+              id: artist.id,
+              name: artist.name,
+              image: artist.images[2]?.url ?? "/images/spotify-logo.png"
+            };
+          })
+          // Avoid duplicates
+          .filter((a) => this.filterArtists.filter((fa) => fa.id === a.id).length === 0)
+      );
     },
     async onSelect(artist) {
       this.$emit("select-artist", artist);
