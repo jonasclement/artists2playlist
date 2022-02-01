@@ -19,19 +19,7 @@ import PageLogo from "@/components/PageLogo.vue";
 
 export default {
   name: "App",
-  components: { PageLogo, ContentDivider },
-  mounted() {
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      return this.setTheme("dark");
-    }
-
-    return this.setTheme("light");
-  },
-  methods: {
-    setTheme(theme) {
-      document.getElementById("app").classList.add(`theme-${theme}`);
-    }
-  }
+  components: { PageLogo, ContentDivider }
 };
 </script>
 
