@@ -55,12 +55,14 @@ export default {
       }
 
       const artists = await searchArtists(query);
+      console.log(artists);
       return (
         artists
           // Simplify data structure
           .map((artist) => {
             return {
               id: artist.id,
+              link: artist.external_urls.spotify,
               name: artist.name,
               image: artist.images[2]?.url ?? "images/spotify-logo-icon.png"
             };

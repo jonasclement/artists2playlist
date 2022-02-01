@@ -19,6 +19,7 @@
           :key="artist.id"
           class="card"
           :artist-id="artist.id"
+          :artist-link="artist.link"
           :name="artist.name"
           :image-src="artist.image"
           @delete-click="onDeleteArtist(artist)"

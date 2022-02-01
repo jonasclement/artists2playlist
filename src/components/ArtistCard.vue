@@ -1,11 +1,13 @@
 <template>
   <div class="artist-card">
     <div class="image">
-      <img :src="imageSrc" alt="" />
+      <a :href="artistLink" target="_blank" rel="noopener">
+        <img :src="imageSrc" alt="" />
+      </a>
     </div>
     <div class="info">
-      <p class="name">{{ name }}</p>
-      <p class="tracks">{{ tracks }}</p>
+      <a :href="artistLink" target="_blank" rel="noopener" class="name">{{ name }}</a>
+      <p class="tracks">{{ trackNames }}</p>
     </div>
     <div class="actions">
       <button class="delete-button" aria-label="Remove artist from your list" @click="onDelete()">
@@ -25,6 +27,10 @@ export default {
       type: String,
       required: true
     },
+    artistLink: {
+      type: String,
+      required: true
+    },
     name: {
       type: String,
       required: true
@@ -35,11 +41,11 @@ export default {
     }
   },
   data() {
-    return { tracks: "..." };
+    return { trackNames: "..." };
   },
   async mounted() {
     const artistTopTracks = await getArtistTopTracks(this.artistId);
-    this.tracks = artistTopTracks.map((track) => track.name).join(", ");
+    this.trackNames = artistTopTracks.map((track) => track.name).join(", ");
   },
   methods: {
     onDelete() {
@@ -69,6 +75,10 @@ export default {
   @include text.text(default)
   @include transitions.short(box-shadow)
 
+  a
+    display: block
+    color: var(--active-link-color)
+
   &:hover
     @include shadows.default()
 
@@ -94,7 +104,7 @@ export default {
       text-overflow: ellipsis
       overflow: hidden
       font-style: italic
-      @include text.text(s)
+      @include text.text(xs)
 
   .actions
     position: relative
