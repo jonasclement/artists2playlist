@@ -1,5 +1,10 @@
 <template>
   <div class="playlist-wizard">
+    <div>
+      <p class="spotify-brand">
+        Powered by <span><img width="120" src="images/spotify-logo-full.png" alt="Spotify" /></span>
+      </p>
+    </div>
     <div v-if="currentStep === STEP_ARTISTS" id="step-1">
       <h2>1. Start by adding the artists you'd like!</h2>
       <spotify-search
@@ -128,6 +133,13 @@ export default {
 
   p, label, input
     @include text.text(default)
+
+  .spotify-brand
+    display: flex
+    align-items: center
+    gap: 8px
+    width: 100%
+    justify-content: center
 
   .wizard-button
     display: block

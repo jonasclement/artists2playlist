@@ -62,7 +62,7 @@ export default {
             return {
               id: artist.id,
               name: artist.name,
-              image: artist.images[2]?.url ?? "/images/spotify-logo.png"
+              image: artist.images[2]?.url ?? "images/spotify-logo-icon.png"
             };
           })
           // Avoid duplicates
