@@ -55,7 +55,6 @@ export default {
       }
 
       const artists = await searchArtists(query);
-      console.log(artists);
       return (
         artists
           // Simplify data structure
