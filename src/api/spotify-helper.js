@@ -181,5 +181,10 @@ export async function createPlaylist(name, artists, tracksPerArtist, shuffle) {
     })
   ).body.id;
 
-  return spotifyApi.addTracksToPlaylist(playlistId, tracks);
+  // Spotify only allows 100 tracks at a time
+  const chunkSize = 100;
+  for (let i = 0; i < tracks.length; i += chunkSize) {
+    const chunk = tracks.slice(i, i + 100);
+    await spotifyApi.addTracksToPlaylist(playlistId, chunk);
+  }
 }
